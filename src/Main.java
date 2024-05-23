@@ -2,10 +2,7 @@ import graph.MyGraph;
 import graph.WeightedGraph;
 import graph.traversals.BFS;
 import graph.traversals.DFS;
-import graph.traversals.DijkstraSearch;
 import graph.traversals.Search;
-
-import java.util.List;
 
 public class Main {
 
@@ -20,7 +17,7 @@ public class Main {
 
         System.out.println("--------------------------------");
 
-        MyGraph<String> graph = new MyGraph<>(true);
+        MyGraph<String> graph = new MyGraph<>(false);
         fillWithoutWeights(graph);
 
         System.out.println("DFS:");

@@ -2,8 +2,6 @@ package graph.traversals;
 
 import graph.MyGraph;
 
-import java.util.Stack;
-
 public class DFS<Vertex> extends Search<Vertex> {
     private final MyGraph<Vertex> graph;
 

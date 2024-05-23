@@ -23,9 +23,11 @@ public class BFS<Vertex> extends Search<Vertex> {
         while (!queue.isEmpty()) {
             Vertex cur = queue.poll();
             for (Vertex v : graph.getAdjacentVertices(cur)) {
-                visited.add(v);
-                queue.add(v);
-                edgeTo.put(v, cur);
+                if (!visited.contains(v)) {
+                    visited.add(v);
+                    queue.add(v);
+                    edgeTo.put(v, cur);
+                }
             }
         }
     }

@@ -1,7 +1,9 @@
 package graph;
 
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Class that contains graph. Using HashMap for contain vertex-edges mapping.
@@ -10,14 +12,14 @@ import java.util.stream.Collectors;
  */
 public class WeightedGraph<Vertex> extends MyGraph<Vertex> {
     private final Map<Vertex, List<Edge<Vertex>>> map = new HashMap<>();
-    private final boolean directed;
+    private final boolean undirected;
 
     public WeightedGraph() {
         this(false);
     }
 
-    public WeightedGraph(boolean directed) {
-        this.directed = directed;
+    public WeightedGraph(boolean undirected) {
+        this.undirected = undirected;
     }
 
     public void addVertex(Vertex v) {
@@ -31,7 +33,7 @@ public class WeightedGraph<Vertex> extends MyGraph<Vertex> {
         if (hasEdge(src, dest)) return;
 
         map.get(src).add(new Edge<>(src, dest, weight));
-        if (!directed) map.get(dest).add(new Edge<>(dest, src, weight));
+        if (undirected) map.get(dest).add(new Edge<>(dest, src, weight));
     }
 
     public boolean hasVertex(Vertex v) {
@@ -45,8 +47,8 @@ public class WeightedGraph<Vertex> extends MyGraph<Vertex> {
 
     public List<Vertex> getAdjacentVertices(Vertex src) {
         if (!hasVertex(src)) return null;
-        List<Edge<Vertex>> edges = map.get(src);
 
-        return edges.stream().map(Edge::getDest).toList(); // Using stream to extract all dest vertices from src
+        // Using stream to extract all dest vertices from src
+        return map.get(src).stream().map(Edge::getDest).toList();
     }
 }

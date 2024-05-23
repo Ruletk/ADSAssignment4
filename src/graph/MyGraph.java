@@ -25,14 +25,15 @@ public class MyGraph<Vertex> {
     public void addEdge(Vertex from, Vertex to) {
         if (!graph.containsKey(from)) addVertex(from);
         if (!graph.containsKey(to)) addVertex(to);
+
         graph.get(from).add(new Edge<>(from, to));
+        if (undirected) graph.get(to).add(new Edge<>(to, from));
     }
 
     public List<Vertex> getAdjacentVertices(Vertex vertex) {
         if (!graph.containsKey(vertex)) return new ArrayList<>();
-        List<Vertex> adjacentVertices = new ArrayList<>();
-        for (Edge<Vertex> edge : graph.get(vertex))
-            adjacentVertices.add(edge.getDest());
-        return adjacentVertices;
+
+        // Using stream to extract all adjacent vertices with vertex
+        return graph.get(vertex).stream().map(Edge::getDest).toList();
     }
 }
