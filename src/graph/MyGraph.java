@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 
 public class MyGraph<Vertex> {
-    private final boolean undirected;
-    private final Map<Vertex, List<Edge<Vertex>>> graph;
+    protected final boolean undirected;
+    protected final Map<Vertex, List<Edge<Vertex>>> graph;
 
     public MyGraph() {
         this(false);
@@ -23,17 +23,31 @@ public class MyGraph<Vertex> {
     }
 
     public void addEdge(Vertex from, Vertex to) {
-        if (!graph.containsKey(from)) addVertex(from);
-        if (!graph.containsKey(to)) addVertex(to);
+        addEdge(from, to, 0);
+    }
 
-        graph.get(from).add(new Edge<>(from, to));
-        if (undirected) graph.get(to).add(new Edge<>(to, from));
+    public boolean hasVertex(Vertex v) {
+        return graph.containsKey(v);
+    }
+
+    public boolean hasEdge(Vertex src, Vertex dest) {
+        if (!hasVertex(src) || !hasVertex(dest)) return false;
+        return graph.get(src).contains(new Edge<>(src, dest));
     }
 
     public List<Vertex> getAdjacentVertices(Vertex vertex) {
         if (!graph.containsKey(vertex)) return new ArrayList<>();
 
-        // Using stream to extract all adjacent vertices with vertex
+        // Using stream to extract all adjacent vertices from vertex
         return graph.get(vertex).stream().map(Edge::getDest).toList();
+    }
+
+    protected void addEdge(Vertex from, Vertex to, double weight) {
+        if (!hasVertex(from)) addVertex(from);
+        if (!hasVertex(to)) addVertex(to);
+        if (hasEdge(from, to) || from.equals(to)) return;
+
+        graph.get(from).add(new Edge<>(from, to, weight));
+        if (undirected) graph.get(to).add(new Edge<>(to, from, weight));
     }
 }
